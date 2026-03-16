@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:pages": "vite build && powershell -ExecutionPolicy Bypass -File scripts/sync-pages.ps1",
     "lint": "eslint .",
     "preview": "vite preview"
   },
