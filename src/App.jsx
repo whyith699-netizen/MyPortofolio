@@ -253,26 +253,45 @@ function ArsenalKey({
   onSelect,
   reduceMotion,
 }) {
+  const [pressed, setPressed] = useState(false);
+  const pressedOffset = pressed ? 12 : active ? 8 : 0;
+  const depthHeight = pressed ? 6 : active ? 8 : 14;
+
   return (
     <Motion.button
       className="relative h-[6.8rem] text-left outline-none focus-visible:ring-2 focus-visible:ring-white/40"
       onClick={() => onSelect(item.id)}
+      onMouseDown={() => setPressed(true)}
+      onMouseUp={() => setPressed(false)}
+      onMouseLeave={() => setPressed(false)}
+      onTouchEnd={() => setPressed(false)}
+      onTouchStart={() => setPressed(true)}
       transition={{ type: "spring", stiffness: 360, damping: 24 }}
       type="button"
-      whileTap={reduceMotion ? undefined : { scale: 0.985 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.995 }}
     >
-      <div className="absolute inset-x-1 bottom-0 h-4 rounded-b-[1rem] border border-white/8 bg-white/[0.04]" />
       <Motion.div
         animate={{
-          y: active ? 8 : 0,
+          height: depthHeight,
+          opacity: pressed ? 0.7 : 1,
+        }}
+        className="absolute inset-x-1 bottom-0 rounded-b-[1rem] border border-white/8 bg-white/[0.04]"
+        transition={{ type: "spring", stiffness: 380, damping: 28 }}
+      />
+      <Motion.div
+        animate={{
+          y: pressedOffset,
           borderColor: active
             ? "rgba(255,255,255,0.26)"
             : "rgba(255,255,255,0.09)",
           backgroundColor: active
             ? "rgba(255,255,255,0.10)"
             : "rgba(255,255,255,0.04)",
+          boxShadow: pressed
+            ? "0 6px 16px rgba(0,0,0,0.22)"
+            : "0 18px 30px rgba(0,0,0,0.28)",
         }}
-        className="absolute inset-0 rounded-[1rem] border px-3 py-3 shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
+        className="absolute inset-0 rounded-[1rem] border px-3 py-3"
         transition={{ type: "spring", stiffness: 320, damping: 22 }}
       >
         <div className="flex h-full flex-col justify-between">
@@ -1762,15 +1781,7 @@ function App() {
 
               <RevealItem className="relative">
                 <div className="absolute inset-x-[12%] bottom-[6%] h-20 rounded-full bg-white/[0.04] blur-3xl" />
-                <Motion.div
-                  className="relative mx-auto max-w-[34rem] [transform-style:preserve-3d]"
-                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  whileHover={
-                    reduceMotion
-                      ? undefined
-                      : { rotateX: 10, rotateY: -8, rotateZ: -5, y: -4 }
-                  }
-                >
+                <div className="relative mx-auto max-w-[34rem] [transform-style:preserve-3d]">
                   <div className="absolute inset-x-10 -bottom-5 h-12 rounded-[1.6rem] bg-black/80 blur-xl" />
                   <div className="relative rounded-[1.8rem] border border-white/10 bg-white/[0.03] p-4 md:p-5 [transform:perspective(1400px)_rotateX(11deg)_rotateY(-14deg)_rotateZ(-6deg)]">
                     <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -1787,7 +1798,7 @@ function App() {
                       ))}
                     </div>
                   </div>
-                </Motion.div>
+                </div>
               </RevealItem>
             </StaggerGroup>
           </div>
