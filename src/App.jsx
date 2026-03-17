@@ -1887,17 +1887,17 @@ function App() {
               <RevealItem className="rounded-[1.5rem] border border-white/10 bg-black/60 p-5">
                 <PanelLabel>notes.log</PanelLabel>
                 <div className="mt-5 space-y-3 rounded-[1.3rem] border border-white/10 bg-black/70 p-5 font-mono text-sm text-zinc-300">
-                  {siteContent.bulletin.codeLines.map((line) => (
-                    <p key={line.id}>{readText(line, language)}</p>
+                  {siteContent.bulletin.codeLines.map((line, index) => (
+                    <p key={`bulletin-line-${index}`}>{readText(line, language)}</p>
                   ))}
                 </div>
                 <StaggerGroup
                   className="mt-5 grid gap-3 sm:grid-cols-2"
                   stagger={0.08}
                 >
-                  {siteContent.bulletin.badges.map((badge) => (
+                  {siteContent.bulletin.badges.map((badge, index) => (
                     <RevealItem
-                      key={badge.id}
+                      key={`bulletin-badge-${index}`}
                       className="rounded-[1.2rem] border border-white/10 bg-white/[0.03] p-4 text-sm text-zinc-300"
                     >
                       <ProximityCard disabled={reduceMotion}>
