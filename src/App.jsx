@@ -255,11 +255,10 @@ function ArsenalKey({
 }) {
   const [pressed, setPressed] = useState(false);
   const pressedOffset = pressed ? 12 : active ? 8 : 0;
-  const depthHeight = pressed ? 6 : active ? 8 : 14;
 
   return (
     <Motion.button
-      className="relative h-[6.8rem] text-left outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+      className="relative h-[7.9rem] w-full text-left outline-none focus-visible:ring-2 focus-visible:ring-white/40 md:h-[8.8rem]"
       onClick={() => onSelect(item.id)}
       onMouseDown={() => setPressed(true)}
       onMouseUp={() => setPressed(false)}
@@ -272,10 +271,10 @@ function ArsenalKey({
     >
       <Motion.div
         animate={{
-          height: depthHeight,
+          height: pressed ? 8 : active ? 10 : 18,
           opacity: pressed ? 0.7 : 1,
         }}
-        className="absolute inset-x-1 bottom-0 rounded-b-[1rem] border border-white/8 bg-white/[0.04]"
+        className="absolute inset-x-1 bottom-0 rounded-b-[1.15rem] border border-white/8 bg-white/[0.05]"
         transition={{ type: "spring", stiffness: 380, damping: 28 }}
       />
       <Motion.div
@@ -291,17 +290,17 @@ function ArsenalKey({
             ? "0 6px 16px rgba(0,0,0,0.22)"
             : "0 18px 30px rgba(0,0,0,0.28)",
         }}
-        className="absolute inset-0 rounded-[1rem] border px-3 py-3"
+        className="absolute inset-0 rounded-[1.15rem] border px-4 py-4 md:px-4 md:py-4"
         transition={{ type: "spring", stiffness: 320, damping: 22 }}
       >
         <div className="flex h-full flex-col justify-between">
           <div className="flex items-start justify-between gap-3">
             <FrameworkGlyph iconKey={item.iconKey} />
-            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/28">
+            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/28 md:text-[11px]">
               {String(index + 1).padStart(2, "0")}
             </span>
           </div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/80">
+          <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-white/80 md:text-[13px]">
             {readText(item.label, language)}
           </p>
         </div>
@@ -1716,7 +1715,7 @@ function App() {
             <div className="absolute left-1/2 top-[28%] h-24 w-24 -translate-x-1/2 rotate-45 border border-white/6" />
             <div className="absolute left-[8%] top-[58%] h-20 w-20 rotate-[12deg] border border-white/6" />
 
-            <StaggerGroup className="relative grid gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)] xl:items-center">
+            <StaggerGroup className="relative grid gap-10 xl:grid-cols-[minmax(0,0.92fr)_minmax(420px,1.08fr)] xl:items-center">
               <RevealItem className="relative">
                 <PanelLabel>{readText(siteContent.services.eyebrow, language)}</PanelLabel>
                 <div className="mt-4 max-w-xl">
@@ -1781,10 +1780,10 @@ function App() {
 
               <RevealItem className="relative">
                 <div className="absolute inset-x-[12%] bottom-[6%] h-20 rounded-full bg-white/[0.04] blur-3xl" />
-                <div className="relative mx-auto max-w-[34rem] [transform-style:preserve-3d]">
-                  <div className="absolute inset-x-10 -bottom-5 h-12 rounded-[1.6rem] bg-black/80 blur-xl" />
-                  <div className="relative rounded-[1.8rem] border border-white/10 bg-white/[0.03] p-4 md:p-5 [transform:perspective(1400px)_rotateX(11deg)_rotateY(-14deg)_rotateZ(-6deg)]">
-                    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                <div className="relative mx-auto w-full max-w-[42rem] [transform-style:preserve-3d]">
+                  <div className="absolute inset-x-8 -bottom-6 h-14 rounded-[1.8rem] bg-black/85 blur-xl" />
+                  <div className="relative rounded-[2rem] border border-white/10 bg-white/[0.03] p-5 md:p-6 [transform:perspective(1400px)_rotateX(11deg)_rotateY(-14deg)_rotateZ(-6deg)]">
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-4">
                       {siteContent.services.items.map((item, index) => (
                         <ArsenalKey
                           active={activeService.id === item.id}
