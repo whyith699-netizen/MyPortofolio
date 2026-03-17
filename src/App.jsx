@@ -28,6 +28,14 @@ import claudeLogo from "./assets/ai-logos/claude.svg";
 import geminiLogo from "./assets/ai-logos/gemini.svg";
 import grokLogo from "./assets/ai-logos/grok.svg";
 import openAiLogo from "./assets/ai-logos/openai.svg";
+import dockerStackLogo from "./assets/stack-logos/docker.svg";
+import githubStackLogo from "./assets/stack-logos/github.svg";
+import nextStackLogo from "./assets/stack-logos/nextjs.svg";
+import nodeStackLogo from "./assets/stack-logos/nodejs.svg";
+import postgresStackLogo from "./assets/stack-logos/postgresql.svg";
+import reactStackLogo from "./assets/stack-logos/react.svg";
+import tailwindStackLogo from "./assets/stack-logos/tailwind.svg";
+import typescriptStackLogo from "./assets/stack-logos/typescript.svg";
 import { siteContent } from "./data/siteContent";
 import {
   cardHoverVariants,
@@ -48,15 +56,25 @@ const ProjectModal = lazy(() =>
   })),
 );
 const Motion = motion;
-const frameworkMonograms = {
-  react: "R",
-  node: "N",
-  next: "NX",
-  postgres: "DB",
-  tailwind: "TW",
-  typescript: "TS",
-  docker: "DK",
-  github: "GH",
+const frameworkLogos = {
+  react: reactStackLogo,
+  node: nodeStackLogo,
+  next: nextStackLogo,
+  postgres: postgresStackLogo,
+  tailwind: tailwindStackLogo,
+  typescript: typescriptStackLogo,
+  docker: dockerStackLogo,
+  github: githubStackLogo,
+};
+const frameworkLogoClasses = {
+  react: "h-8 w-8",
+  node: "h-6 w-auto max-w-[3.15rem]",
+  next: "h-5 w-auto max-w-[3rem]",
+  postgres: "h-8 w-8",
+  tailwind: "h-7 w-auto max-w-[2.9rem]",
+  typescript: "h-8 w-8",
+  docker: "h-6 w-auto max-w-[3.2rem]",
+  github: "h-8 w-8",
 };
 
 const readText = (value, language) => {
@@ -236,11 +254,13 @@ function ProximityCard({ children, className = "", disabled = false }) {
 
 function FrameworkGlyph({ iconKey }) {
   return (
-    <div className="relative flex h-11 w-11 items-center justify-center rounded-[0.95rem] border border-white/10 bg-black/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-      <div className="absolute inset-x-2 top-2 h-px bg-white/10" />
-      <span className="font-mono text-[0.72rem] uppercase tracking-[0.24em] text-white/80">
-        {frameworkMonograms[iconKey] ?? "FS"}
-      </span>
+    <div className="relative flex h-12 min-w-[4rem] items-center justify-center rounded-[0.95rem] border border-white/16 bg-white shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]">
+      <img
+        alt=""
+        aria-hidden="true"
+        className={`object-contain ${frameworkLogoClasses[iconKey] ?? "h-7 w-7"}`}
+        src={frameworkLogos[iconKey]}
+      />
     </div>
   );
 }
