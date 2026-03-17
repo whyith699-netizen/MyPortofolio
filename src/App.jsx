@@ -48,6 +48,16 @@ const ProjectModal = lazy(() =>
   })),
 );
 const Motion = motion;
+const frameworkMonograms = {
+  react: "R",
+  node: "N",
+  next: "NX",
+  postgres: "DB",
+  tailwind: "TW",
+  typescript: "TS",
+  docker: "DK",
+  github: "GH",
+};
 
 const readText = (value, language) => {
   if (typeof value === "string") {
@@ -221,6 +231,63 @@ function ProximityCard({ children, className = "", disabled = false }) {
       />
       <div className="relative">{children}</div>
     </Motion.div>
+  );
+}
+
+function FrameworkGlyph({ iconKey }) {
+  return (
+    <div className="relative flex h-11 w-11 items-center justify-center rounded-[0.95rem] border border-white/10 bg-black/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+      <div className="absolute inset-x-2 top-2 h-px bg-white/10" />
+      <span className="font-mono text-[0.72rem] uppercase tracking-[0.24em] text-white/80">
+        {frameworkMonograms[iconKey] ?? "FS"}
+      </span>
+    </div>
+  );
+}
+
+function ArsenalKey({
+  active,
+  index,
+  item,
+  language,
+  onSelect,
+  reduceMotion,
+}) {
+  return (
+    <Motion.button
+      className="relative h-[6.8rem] text-left outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+      onClick={() => onSelect(item.id)}
+      transition={{ type: "spring", stiffness: 360, damping: 24 }}
+      type="button"
+      whileTap={reduceMotion ? undefined : { scale: 0.985 }}
+    >
+      <div className="absolute inset-x-1 bottom-0 h-4 rounded-b-[1rem] border border-white/8 bg-white/[0.04]" />
+      <Motion.div
+        animate={{
+          y: active ? 8 : 0,
+          borderColor: active
+            ? "rgba(255,255,255,0.26)"
+            : "rgba(255,255,255,0.09)",
+          backgroundColor: active
+            ? "rgba(255,255,255,0.10)"
+            : "rgba(255,255,255,0.04)",
+        }}
+        className="absolute inset-0 rounded-[1rem] border px-3 py-3 shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
+        transition={{ type: "spring", stiffness: 320, damping: 22 }}
+      >
+        <div className="flex h-full flex-col justify-between">
+          <div className="flex items-start justify-between gap-3">
+            <FrameworkGlyph iconKey={item.iconKey} />
+            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/28">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          </div>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-white/80">
+            {readText(item.label, language)}
+          </p>
+        </div>
+      </Motion.div>
+    </Motion.button>
   );
 }
 
@@ -885,6 +952,9 @@ function App() {
       window.sessionStorage.getItem("brand-loader-seen") !== "1",
   );
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedServiceId, setSelectedServiceId] = useState(
+    siteContent.services.items[0]?.id ?? "",
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(false);
   const [contactForm, setContactForm] = useState({
@@ -916,6 +986,12 @@ function App() {
     damping: 30,
     mass: 0.25,
   });
+  const activeService =
+    siteContent.services.items.find((item) => item.id === selectedServiceId) ??
+    siteContent.services.items[0];
+  const serviceTitle = readText(siteContent.services.title, language);
+  const serviceTitleLead = serviceTitle.replace(/\s+Arsenal$/, "");
+  const serviceCodeLines = activeService?.codeLines ?? [];
 
   useEffect(() => {
     if (reduceMotion || !showLoader) {
@@ -1605,60 +1681,116 @@ function App() {
           id="services"
           className="mx-auto max-w-7xl px-5 py-14 md:px-8 md:py-20"
         >
-          <Panel className="p-6 md:p-8">
-            <SectionHeading
-              description={readText(siteContent.services.intro, language)}
-              eyebrow={readText(siteContent.services.eyebrow, language)}
-              title={readText(siteContent.services.eyebrow, language)}
+          <div className="relative overflow-hidden rounded-[2.2rem] border border-white/10 bg-black px-5 py-8 shadow-[0_35px_90px_rgba(0,0,0,0.45)] md:px-8 md:py-10">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 opacity-30"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
+                backgroundSize: "28px 28px",
+              }}
             />
-            <StaggerGroup className="mt-8 grid gap-6 xl:grid-cols-[0.6fr_0.4fr]">
-              <StaggerGroup
-                className="grid gap-4 md:grid-cols-3"
-                stagger={0.08}
-              >
-                {siteContent.services.items.map((item) => (
-                  <RevealItem
-                    key={item.id}
-                    className="rounded-[1.4rem] border border-white/10 bg-white/[0.03] p-5"
-                  >
-                    <ProximityCard disabled={reduceMotion}>
-                      <PanelLabel>
-                        {readText(siteContent.ui.exploreLabel, language)}
-                      </PanelLabel>
-                      <p className="mt-4 font-display text-2xl font-semibold text-white">
-                        {readText(item.title, language)}
-                      </p>
-                      <p className="mt-4 text-sm leading-7 text-zinc-300">
-                        {readText(item.body, language)}
-                      </p>
-                    </ProximityCard>
-                  </RevealItem>
-                ))}
-              </StaggerGroup>
-              <RevealItem className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-6">
-                <div className="relative mx-auto flex h-[20rem] w-[20rem] items-center justify-center rounded-full border border-white/10">
-                  <div className="absolute h-[15rem] w-[15rem] rounded-full border border-white/10" />
-                  <div className="absolute h-[10rem] w-[10rem] rounded-full border border-white/10" />
-                  <div className="rounded-full border border-white/15 bg-white/[0.06] px-5 py-3 text-sm uppercase tracking-[0.3em] text-white/70">
-                    Grid
-                  </div>
-                  {siteContent.services.capabilities.map((item, index) => (
-                    <span
-                      key={item.id}
-                      className="absolute rounded-full border border-white/10 bg-black px-3 py-2 text-[10px] uppercase tracking-[0.22em] text-white/60"
-                      style={{
-                        left: `${50 + Math.cos((index / siteContent.services.capabilities.length) * Math.PI * 2) * 38}%`,
-                        top: `${50 + Math.sin((index / siteContent.services.capabilities.length) * Math.PI * 2) * 38}%`,
-                        transform: "translate(-50%, -50%)",
-                      }}
-                    >
-                      {readText(item, language)}
-                    </span>
-                  ))}
+            <div className="absolute left-[28%] top-0 h-40 w-px bg-gradient-to-b from-white/20 to-transparent" />
+            <div className="absolute right-[12%] top-0 h-24 w-px bg-gradient-to-b from-white/16 to-transparent" />
+            <div className="absolute -right-16 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full border border-white/6" />
+            <div className="absolute left-1/2 top-[28%] h-24 w-24 -translate-x-1/2 rotate-45 border border-white/6" />
+            <div className="absolute left-[8%] top-[58%] h-20 w-20 rotate-[12deg] border border-white/6" />
+
+            <StaggerGroup className="relative grid gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)] xl:items-center">
+              <RevealItem className="relative">
+                <PanelLabel>{readText(siteContent.services.eyebrow, language)}</PanelLabel>
+                <div className="mt-4 max-w-xl">
+                  <h2 className="font-display text-[clamp(3rem,7vw,6.5rem)] font-bold leading-[0.92] tracking-[-0.08em] text-white">
+                    {serviceTitleLead}
+                    <br />
+                    <span className="text-white/42">Arsenal</span>
+                  </h2>
                 </div>
+                <div className="mt-6 h-[3px] w-18 bg-white/90 shadow-[0_0_18px_rgba(255,255,255,0.2)]" />
+
+                <div className="mt-7 max-w-xl rounded-[1.2rem] border border-white/10 bg-white/[0.03] p-5">
+                  <p className="text-base leading-8 text-zinc-300 md:text-lg">
+                    {readText(siteContent.services.intro, language)}
+                  </p>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  <Motion.div
+                    key={activeService.id}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-7 max-w-xl space-y-4"
+                    exit={{ opacity: 0, y: -16 }}
+                    initial={{ opacity: 0, y: 16 }}
+                    transition={{ duration: reduceMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <div className="rounded-[1.2rem] border border-white/10 bg-white/[0.025] p-5">
+                      <div className="flex items-center justify-between gap-4">
+                        <PanelLabel>{readText(activeService.label, language)}</PanelLabel>
+                        <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/38">
+                          {readText(siteContent.services.title, language)}
+                        </span>
+                      </div>
+                      <p className="mt-4 font-display text-[1.8rem] font-semibold leading-tight text-white md:text-[2.1rem]">
+                        {readText(activeService.title, language)}
+                      </p>
+                      <p className="mt-3 text-sm leading-7 text-zinc-300 md:text-base">
+                        {readText(activeService.description, language)}
+                      </p>
+                    </div>
+
+                    <div className="rounded-[1.15rem] border border-white/10 bg-white/[0.02] p-4">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2.5 w-2.5 rounded-full bg-white/40" />
+                        <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
+                        <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+                      </div>
+                      <div className="mt-4 space-y-3 font-mono text-[12px] leading-6 text-zinc-300 md:text-[13px]">
+                        {serviceCodeLines.map((line, index) => (
+                          <div key={`${activeService.id}-${index}`} className="flex gap-4">
+                            <span className="text-white/28">
+                              {String(index + 1).padStart(2, "0")}
+                            </span>
+                            <span>{readText(line, language)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </Motion.div>
+                </AnimatePresence>
+              </RevealItem>
+
+              <RevealItem className="relative">
+                <div className="absolute inset-x-[12%] bottom-[6%] h-20 rounded-full bg-white/[0.04] blur-3xl" />
+                <Motion.div
+                  className="relative mx-auto max-w-[34rem] [transform-style:preserve-3d]"
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={
+                    reduceMotion
+                      ? undefined
+                      : { rotateX: 10, rotateY: -8, rotateZ: -5, y: -4 }
+                  }
+                >
+                  <div className="absolute inset-x-10 -bottom-5 h-12 rounded-[1.6rem] bg-black/80 blur-xl" />
+                  <div className="relative rounded-[1.8rem] border border-white/10 bg-white/[0.03] p-4 md:p-5 [transform:perspective(1400px)_rotateX(11deg)_rotateY(-14deg)_rotateZ(-6deg)]">
+                    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                      {siteContent.services.items.map((item, index) => (
+                        <ArsenalKey
+                          active={activeService.id === item.id}
+                          index={index}
+                          item={item}
+                          key={item.id}
+                          language={language}
+                          onSelect={setSelectedServiceId}
+                          reduceMotion={reduceMotion}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </Motion.div>
               </RevealItem>
             </StaggerGroup>
-          </Panel>
+          </div>
         </RevealSection>
 
         <RevealSection

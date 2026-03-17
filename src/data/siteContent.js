@@ -294,44 +294,125 @@ export const siteContent = {
     ),
   },
   services: {
-    eyebrow: copy("Expanded Skills", "Expanded Skills"),
+    eyebrow: copy("Expertise & Stack", "Expertise & Stack"),
+    title: copy("Full Stack Arsenal", "Full Stack Arsenal"),
     intro: copy(
-      "Keahlian saya dibagi ke dalam tiga kelompok utama: pengembangan inti, workflow berbasis AI, serta kemampuan analitis dan project thinking.",
-      "My skills are grouped into three main areas: core development, AI-driven workflow, and analytical plus project thinking capability.",
+      "Membangun aplikasi yang resilient dan scalable dengan toolkit modern yang dipilih untuk performa, type-safety, dan developer experience.",
+      "Building resilient, scalable applications with a modern toolkit chosen for performance, type-safety, and developer experience.",
     ),
     items: [
       {
-        id: "service-a",
-        title: copy("Core Development", "Core Development"),
-        body: copy(
-          "Full Stack Web Development, React.js, Vite, responsive and interactive UI, API integration, database management, serta Git/GitHub workflow.",
-          "Full Stack Web Development, React.js, Vite, responsive and interactive UI, API integration, database management, and Git/GitHub workflow.",
+        id: "react",
+        iconKey: "react",
+        label: copy("React", "React"),
+        title: copy("React interface layer", "React interface layer"),
+        description: copy(
+          "Digunakan untuk membangun antarmuka modular, interaktif, dan mudah dikembangkan untuk dashboard maupun aplikasi produk.",
+          "Used to build modular, interactive, and maintainable interfaces for dashboards and product applications.",
         ),
+        codeLines: [
+          copy("const ui = compose(React, state, motion);", "const ui = compose(React, state, motion);"),
+          copy("return ui.render(cleanExperience);", "return ui.render(cleanExperience);"),
+        ],
       },
       {
-        id: "service-b",
-        title: copy("AI Driven Workflow", "AI Driven Workflow"),
-        body: copy(
-          "AI assisted development, advanced prompt engineering, automated debugging, code refactoring, dan AI integration untuk fitur produk.",
-          "AI assisted development, advanced prompt engineering, automated debugging, code refactoring, and AI integration for product features.",
+        id: "node",
+        iconKey: "node",
+        label: copy("Node.js", "Node.js"),
+        title: copy("Node runtime backbone", "Node runtime backbone"),
+        description: copy(
+          "Menjadi runtime utama untuk service layer, API orchestration, automation task, dan logic backend yang tetap ringan.",
+          "Acts as the main runtime for service layers, API orchestration, automation tasks, and lightweight backend logic.",
         ),
+        codeLines: [
+          copy("const api = createServer({ runtime: 'node' });", "const api = createServer({ runtime: 'node' });"),
+          copy("api.listen(process.env.PORT);", "api.listen(process.env.PORT);"),
+        ],
       },
       {
-        id: "service-c",
-        title: copy("Project Thinking", "Project Thinking"),
-        body: copy(
-          "Project scoping, requirement analysis, problem solving, analytical thinking, ketelitian ekstra, dan adaptabilitas tinggi terhadap teknologi baru.",
-          "Project scoping, requirement analysis, problem solving, analytical thinking, extra detail orientation, and high adaptability to new technology.",
+        id: "next",
+        iconKey: "next",
+        label: copy("Next.js", "Next.js"),
+        title: copy("Next.js product delivery", "Next.js product delivery"),
+        description: copy(
+          "Dipakai ketika project membutuhkan routing modern, rendering yang fleksibel, dan struktur aplikasi yang siap tumbuh.",
+          "Used when a project needs modern routing, flexible rendering, and an application structure ready to scale.",
         ),
+        codeLines: [
+          copy("export const runtime = 'nodejs';", "export const runtime = 'nodejs';"),
+          copy("export default function Page() { return <App />; }", "export default function Page() { return <App />; }"),
+        ],
       },
-    ],
-    capabilities: [
-      copy("Full Stack Web Development", "Full Stack Web Development"),
-      copy("React.js and Vite", "React.js and Vite"),
-      copy("Tailwind CSS", "Tailwind CSS"),
-      copy("AI Assisted Development", "AI Assisted Development"),
-      copy("Advanced Prompt Engineering", "Advanced Prompt Engineering"),
-      copy("Automated Debugging", "Automated Debugging"),
+      {
+        id: "postgres",
+        iconKey: "postgres",
+        label: copy("Postgres", "Postgres"),
+        title: copy("PostgreSQL data core", "PostgreSQL data core"),
+        description: copy(
+          "Menjaga data tetap terstruktur dan stabil untuk sistem yang membutuhkan relasi kuat, query jelas, dan skema yang rapi.",
+          "Keeps data structured and stable for systems that need strong relations, clear queries, and clean schemas.",
+        ),
+        codeLines: [
+          copy("select * from products order by created_at desc;", "select * from products order by created_at desc;"),
+          copy("create index idx_metrics_date on metrics(day);", "create index idx_metrics_date on metrics(day);"),
+        ],
+      },
+      {
+        id: "tailwind",
+        iconKey: "tailwind",
+        label: copy("Tailwind", "Tailwind"),
+        title: copy("Tailwind visual system", "Tailwind visual system"),
+        description: copy(
+          "Mempercepat pembangunan UI yang konsisten dengan utility-based styling, ritme spacing yang rapi, dan iterasi visual cepat.",
+          "Accelerates consistent UI building through utility-based styling, clean spacing rhythm, and fast visual iteration.",
+        ),
+        codeLines: [
+          copy("className='rounded-2xl border border-white/10'", "className='rounded-2xl border border-white/10'"),
+          copy("className='bg-black text-white shadow-glow'", "className='bg-black text-white shadow-glow'"),
+        ],
+      },
+      {
+        id: "typescript",
+        iconKey: "typescript",
+        label: copy("TypeScript", "TypeScript"),
+        title: copy("Type-safe engineering", "Type-safe engineering"),
+        description: copy(
+          "Menambah kejelasan kontrak data, mengurangi bug saat refactor, dan membuat kode lebih aman untuk berkembang.",
+          "Adds clear data contracts, reduces bugs during refactors, and keeps code safer to grow over time.",
+        ),
+        codeLines: [
+          copy("type StackKey = 'react' | 'node' | 'next';", "type StackKey = 'react' | 'node' | 'next';"),
+          copy("const active: StackKey = 'react';", "const active: StackKey = 'react';"),
+        ],
+      },
+      {
+        id: "docker",
+        iconKey: "docker",
+        label: copy("Docker", "Docker"),
+        title: copy("Containerized deployment flow", "Containerized deployment flow"),
+        description: copy(
+          "Membantu menyamakan environment development dan deployment agar build lebih konsisten dan mudah dipindahkan.",
+          "Helps align development and deployment environments so builds stay consistent and portable.",
+        ),
+        codeLines: [
+          copy("FROM node:22-alpine", "FROM node:22-alpine"),
+          copy("CMD ['npm', 'run', 'start']", "CMD ['npm', 'run', 'start']"),
+        ],
+      },
+      {
+        id: "github",
+        iconKey: "github",
+        label: copy("GitHub", "GitHub"),
+        title: copy("Versioning and delivery control", "Versioning and delivery control"),
+        description: copy(
+          "Dipakai untuk versioning, review, dan automation workflow agar proses build dan kolaborasi lebih terjaga.",
+          "Used for versioning, review, and workflow automation so build and collaboration processes stay controlled.",
+        ),
+        codeLines: [
+          copy("git checkout -b feature/full-stack-arsenal", "git checkout -b feature/full-stack-arsenal"),
+          copy("git push origin main", "git push origin main"),
+        ],
+      },
     ],
   },
   projects: [
@@ -723,7 +804,7 @@ export default function buildPortfolio() {
   ui: {
     nav: {
       about: copy("About", "About"),
-      services: copy("Services", "Services"),
+      services: copy("Arsenal", "Arsenal"),
       projects: copy("Projects", "Projects"),
       contact: copy("Contact", "Contact"),
     },
